@@ -86,7 +86,7 @@ elif(a==5):
     col=len(matrix[0])
     for i in range(row):
         row_min=matrix[i][0]
-        min_col_o=[0]
+        min_col_i=[0]
         for j in range(i,col):
             if matrix[i][j]<row_min:
                 min_col_i=[j]
