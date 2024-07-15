@@ -25,15 +25,15 @@ if a==1:
                 break
         break
         print("YES it is a upper triangular matrix")
+#diagonal sum
 elif a==2:
     sum=0
+    anti_dig_sum=0
     for i in range(0,n): 
         sum=sum+matrix[i][i]
+        anti_dig_sum += matrix[i][n-1-i]
     print("The sum of the diagonal is:", sum)
-    for i in range(0,n):
-        for j in range(-0,-n):
-            sum = sum + matrix[i][j]  
-    print("The sum of the anti diagonal is:", sum)
+    print("The sum of the anti diagonal is:", anti_dig_sum)
 elif a==3:
     transpose_matrix=[]
     for i in range(0,n):
@@ -101,6 +101,11 @@ elif(a==5):
             if is_saddle:
                 saddle_point.append((i+1,col_i+1))
             print(saddle_point)
+elif(a==6):
+    n=len(matrix)
+    common_sum=sum(matrix[0])
+    is_magic=True
+
 
 else:
     print("Invalid operation")
