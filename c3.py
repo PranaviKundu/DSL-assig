@@ -101,10 +101,36 @@ elif(a==5):
             if is_saddle:
                 saddle_point.append((i+1,col_i+1))
             print(saddle_point)
+# to find if the given matrix is a magic square or not            
 elif(a==6):
-    n=len(matrix)
-    common_sum=sum(matrix[0])
-    is_magic=True
+    n = len(matrix)
+    common_sum = sum(matrix[0])
+    is_magic = True
+    for row in matrix:
+        if sum(row) != common_sum:
+            is_magic = False
+            break
+    if is_magic:
+        for col in range(n):
+            col_sum = 0
+            for row in range(n):
+                col_sum += matrix[row][col]
+            if col_sum != common_sum:
+                is_magic = False
+                break
+    if is_magic:
+        first_diagonal_sum = 0
+        for i in range(n):
+            first_diagonal_sum += matrix[i][i]
+        if first_diagonal_sum != common_sum:
+            is_magic = False
+    if is_magic:
+        second_diagonal_sum = 0
+        for i in range(n):
+            second_diagonal_sum += matrix[i][n - i - 1]
+        if second_diagonal_sum != common_sum:
+            is_magic = False
+    print(is_magic)
 
 
 else:
