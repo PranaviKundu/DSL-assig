@@ -1,7 +1,7 @@
 n = int(input("Enter the size of the row: "))
 m = int(input("Enter the size of the column: "))
 matrix = []
-print("Enter the elements row wise:")
+print("Enter the elements row-wise:")
 for i in range(n):
     row = []
     for j in range(m):
@@ -12,9 +12,10 @@ for i in range(n):
 print("1. Check whether the matrix is upper triangular or not.")
 print("2. Compute summation of diagonal elements.")
 print("3. Compute transpose of a matrix.")
-print("4. Add, subtract and multiply two matrices.")
-print("5. To determine the location of saddle point of a matrix.")
-print("6. To find if a matrix is magic square or not.\n")
+print("4. Add and subtract of two matrices.")
+print("5. Multiplication of two matrix.")
+print("6. To determine the location of saddle point of a matrix.")
+print("7. To find if a matrix is magic square or not.\n")
 
 a = int(input("Enter the number of the operation you want to run: "))
 
@@ -83,18 +84,30 @@ elif a == 4:
         print("Subtraction matrix of both the matrices is:")
         for row in sub_matrix:
             print(row)
-        
-        result = [[0 for _ in range(cols)] for _ in range(n)]
-        for i in range(n):
-            for j in range(cols):
-                for k in range(m):
-                    result[i][j] += matrix[i][k] * matrix2[k][j]
-        print("Multiplication matrix of both the matrices is:")
-        for row in result:
-            print(row)
+elif a==5:
+    print("Enter one more matrix to find the addition, subtraction and multiplication of the two matrices")
+    
+    rows = int(input("Enter the number of rows: "))
+    cols = int(input("Enter the number of columns: "))
+    matrix2 = []
+    print("Enter the elements row-wise:")
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            element = int(input(f"Enter element [{i}][{j}]: "))
+            row.append(element)
+        matrix2.append(row)
+    result = [[0 for _ in range(cols)] for _ in range(n)]
+    for i in range(n):
+        for j in range(cols):
+            for k in range(m):
+                result[i][j] += matrix[i][k] * matrix2[k][j]
+    print("Multiplication matrix of both the matrices is:")
+    for row in result:
+        print(row)
  
 # To find the saddle point of a matrix                    
-elif a == 5:
+elif a == 6:
     saddle_points = []
     for i in range(n):
         row_min = min(matrix[i])
@@ -108,7 +121,7 @@ elif a == 5:
         print(point)
 
 # To find if the given matrix is magic square or not
-elif a == 6:
+elif a == 7:
     common_sum = sum(matrix[0])
     is_magic = True
     for row in matrix:
