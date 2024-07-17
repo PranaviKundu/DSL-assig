@@ -1,7 +1,7 @@
 n = int(input("Enter the size of the row: "))
 m = int(input("Enter the size of the column: "))
 matrix = []
-print("Enter the elements row-wise:")
+print("Enter the elements row wise:")
 for i in range(n):
     row = []
     for j in range(m):
@@ -53,7 +53,7 @@ elif a == 3:
         print(row)
 
 elif a == 4:
-    print("Enter one more matrix to find the addition, subtraction and multiplication of the two matrices")
+    print("Enter one more matrix to find the addition, subtraction of the two matrices")
     
     rows = int(input("Enter the number of rows: "))
     cols = int(input("Enter the number of columns: "))
@@ -85,7 +85,7 @@ elif a == 4:
         for row in sub_matrix:
             print(row)
 elif a==5:
-    print("Enter one more matrix to find the addition, subtraction and multiplication of the two matrices")
+    print("Enter one more matrix to find the multiplication of the two matrices")
     
     rows = int(input("Enter the number of rows: "))
     cols = int(input("Enter the number of columns: "))
