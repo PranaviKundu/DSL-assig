@@ -1,7 +1,7 @@
-n = int(input("Enter the size of the row: "))
-m = int(input("Enter the size of the column: "))
+n = int(input("Enter the number of rows: "))
+m = int(input("Enter the number of columns: "))
 matrix = []
-print("Enter the elements row wise:")
+print("Enter the elements row-wise:")
 for i in range(n):
     row = []
     for j in range(m):
@@ -12,36 +12,34 @@ for i in range(n):
 print("1. Check whether the matrix is upper triangular or not.")
 print("2. Compute summation of diagonal elements.")
 print("3. Compute transpose of a matrix.")
-print("4. Add and subtract of two matrices.")
-print("5. Multiplication of two matrix.")
-print("6. To determine the location of saddle point of a matrix.")
-print("7. To find if a matrix is magic square or not.\n")
+print("4. Add, subtract, and multiply two matrices.")
+print("5. Determine the location of saddle points in the matrix.")
+print("6. Find if a matrix is a magic square or not.")
 
 a = int(input("Enter the number of the operation you want to run: "))
 
 if a == 1:
-    is_upper = True
-    for i in range(1, n):
-        for j in range(i):
-            if matrix[i][j] != 0:
-                is_upper = False
+    upper_triangular = True
+    for i in range(n):
+        for j in range(m):
+            if i > j and matrix[i][j] != 0:
+                upper_triangular = False
                 break
-        if not is_upper:
+        if not upper_triangular:
             break
-    if is_upper:
+    if upper_triangular:
         print("YES, it is an upper triangular matrix")
     else:
         print("NO, it is not an upper triangular matrix")
 
-# Diagonal sum
 elif a == 2:
-    sum_diag = 0
-    anti_dig_sum = 0
-    for i in range(0, n):
-        sum_diag += matrix[i][i]
-        anti_dig_sum += matrix[i][n - 1 - i]
-    print("The sum of the diagonal is:", sum_diag)
-    print("The sum of the anti diagonal is:", anti_dig_sum)
+    if n != m:
+        print("Matrix is not square; cannot compute diagonal sums.")
+    else:
+        diagonal_sum = sum(matrix[i][i] for i in range(n))
+        anti_diagonal_sum = sum(matrix[i][n - 1 - i] for i in range(n))
+        print("The sum of the diagonal is:", diagonal_sum)
+        print("The sum of the anti-diagonal is:", anti_diagonal_sum)
 
 elif a == 3:
     transpose_matrix = [[0 for _ in range(n)] for _ in range(m)]
@@ -53,96 +51,74 @@ elif a == 3:
         print(row)
 
 elif a == 4:
-    print("Enter one more matrix to find the addition, subtraction of the two matrices")
+    print("Enter one more matrix to find the addition, subtraction, and multiplication of the two matrices:")
     
-    rows = int(input("Enter the number of rows: "))
-    cols = int(input("Enter the number of columns: "))
-    matrix2 = []
-    print("Enter the elements row-wise:")
-    for i in range(rows):
-        row = []
-        for j in range(cols):
-            element = int(input(f"Enter element [{i}][{j}]: "))
-            row.append(element)
-        matrix2.append(row)
-    
-    if n != rows or m != cols:
-        print("As both matrices are not of the same order, addition and subtraction are not possible.")
+    # Taking input for the dimensions of the second matrix
+    rows2 = int(input("Enter the number of rows: "))
+    cols2 = int(input("Enter the number of columns: "))
+
+    if m != cols2 or n != rows2:
+        print("Matrices are not of the same order; addition and subtraction not possible.")
     else:
-        sum_matrix = [[0 for _ in range(m)] for _ in range(n)]
-        for i in range(n):
-            for j in range(m):
-                sum_matrix[i][j] = matrix[i][j] + matrix2[i][j]
-        print("Sum matrix of both the matrices is:")
+        matrix2 = []
+        print("Enter the elements row-wise:")
+        for i in range(rows2):
+            row = []
+            for j in range(cols2):
+                element = int(input(f"Enter element [{i}][{j}]: "))
+                row.append(element)
+            matrix2.append(row)
+        
+        # Addition
+        sum_matrix = [[matrix[i][j] + matrix2[i][j] for j in range(m)] for i in range(n)]
+        print("Sum matrix of both matrices is:")
         for row in sum_matrix:
             print(row)
         
-        sub_matrix = [[0 for _ in range(m)] for _ in range(n)]
-        for i in range(n):
-            for j in range(m):
-                sub_matrix[i][j] = matrix[i][j] - matrix2[i][j]
-        print("Subtraction matrix of both the matrices is:")
+        # Subtraction
+        sub_matrix = [[matrix[i][j] - matrix2[i][j] for j in range(m)] for i in range(n)]
+        print("Subtraction matrix of both matrices is:")
         for row in sub_matrix:
             print(row)
-elif a==5:
-    print("Enter one more matrix to find the multiplication of the two matrices")
-    
-    rows = int(input("Enter the number of rows: "))
-    cols = int(input("Enter the number of columns: "))
-    matrix2 = []
-    print("Enter the elements row-wise:")
-    for i in range(rows):
-        row = []
-        for j in range(cols):
-            element = int(input(f"Enter element [{i}][{j}]: "))
-            row.append(element)
-        matrix2.append(row)
-    result = [[0 for _ in range(cols)] for _ in range(n)]
-    for i in range(n):
-        for j in range(cols):
-            for k in range(m):
-                result[i][j] += matrix[i][k] * matrix2[k][j]
-    print("Multiplication matrix of both the matrices is:")
-    for row in result:
-        print(row)
- 
-# To find the saddle point of a matrix                    
-elif a == 6:
+        
+        # Multiplication
+        result = [[0 for _ in range(cols2)] for _ in range(n)]
+        for i in range(n):
+            for j in range(cols2):
+                result[i][j] = sum(matrix[i][k] * matrix2[k][j] for k in range(m))
+        print("Multiplication result of both matrices is:")
+        for row in result:
+            print(row)
+
+elif a == 5:
     saddle_points = []
     for i in range(n):
         row_min = min(matrix[i])
-        min_col_indices = [j for j in range(m) if matrix[i][j] == row_min]
-        for col_index in min_col_indices:
-            col_max = max(matrix[row][col_index] for row in range(n))
-            if col_max == row_min:
-                saddle_points.append((i + 1, col_index + 1))
-    print("Saddle points of the matrix are at:")
-    for point in saddle_points:
-        print(point)
-
-# To find if the given matrix is magic square or not
-elif a == 7:
-    common_sum = sum(matrix[0])
-    is_magic = True
-    for row in matrix:
-        if sum(row) != common_sum:
-            is_magic = False
-            break
-    if is_magic:
-        for col in range(n):
-            if sum(matrix[row][col] for row in range(n)) != common_sum:
-                is_magic = False
-                break
-    if is_magic:
-        if sum(matrix[i][i] for i in range(n)) != common_sum:
-            is_magic = False
-    if is_magic:
-        if sum(matrix[i][n - 1 - i] for i in range(n)) != common_sum:
-            is_magic = False
-    if is_magic:
-        print("YES, it is a magic square")
+        col_indices = [j for j in range(m) if matrix[i][j] == row_min]
+        for j in col_indices:
+            if all(matrix[k][j] >= row_min for k in range(n)):
+                saddle_points.append((i, j))
+    if saddle_points:
+        print("Saddle points are at:")
+        for point in saddle_points:
+            print(f"Row: {point[0]+1}, Column: {point[1]+1}")
     else:
-        print("NO, it is not a magic square")
+        print("No saddle points found.")
+
+elif a == 6:
+    if n != m:
+        print("Matrix is not square; cannot be a magic square.")
+    else:
+        magic_sum = sum(matrix[0])
+        is_magic = all(sum(matrix[i]) == magic_sum for i in range(n)) and \
+                   all(sum(matrix[j][i] for j in range(n)) == magic_sum for i in range(n)) and \
+                   sum(matrix[i][i] for i in range(n)) == magic_sum and \
+                   sum(matrix[i][n - 1 - i] for i in range(n)) == magic_sum
+
+        if is_magic:
+            print("The matrix is a magic square.")
+        else:
+            print("The matrix is not a magic square.")
 
 else:
     print("Invalid operation")
