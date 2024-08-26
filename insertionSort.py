@@ -1,31 +1,44 @@
-import time
-
 def insertion_sort(arr):
-    print("Before Insertion Sort:", arr)
-    n = len(arr)
-    for i in range(1, n):
+    comparisons = 0  # Initialize comparison count
+
+    for i in range(1, len(arr)):
         key = arr[i]
         j = i - 1
-        
-        while j >= 0 and arr[j] > key:
-            arr[j + 1] = arr[j]
-            j -= 1
+
+        while j >= 0:
+            comparisons += 1  # Count each comparison
+            if key < arr[j]:
+                arr[j + 1] = arr[j]
+                j -= 1
+            else:
+                break  # Exit the loop if no more comparisons are needed
+
         arr[j + 1] = key
+        print(arr)  # Optional: Print the array after each insertion
 
-        print(f"After inserting element {key}: {arr}")
-
-    print("After Insertion Sort:", arr)
+    return comparisons  # Return the number of comparisons
 
 def main():
-    n = int(input("Enter the size of the array: "))
-    array = list(map(int, input("Enter the array elements: ").split()))
+    n = int(input("Enter number of elements: "))
 
-    array_copy = array.copy()
-    start = time.time()
-    insertion_sort(array_copy)
-    end = time.time()
-    
-    print(f"Insertion Sort took {(end - start) * 1_000_000:.2f} microseconds.")
+    print("Enter the elements:")
+    array = []
+    for _ in range(n):
+        array.append(int(input()))
+
+    # Print the original array
+    print("Original array:")
+    print(array)
+
+    # Sort the array and get the number of comparisons
+    comparisons = insertion_sort(array)
+
+    # Print the sorted array
+    print("Sorted array:")
+    print(array)
+
+    # Print the number of comparisons
+    print(f"Total number of comparisons: {comparisons}")
 
 if __name__ == "__main__":
     main()
