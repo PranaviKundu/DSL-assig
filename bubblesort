@@ -4,13 +4,15 @@ arr = []
 for i in range(n):
     element = int(input(f"Enter element {i+1}: "))
     arr.append(element)
-
+count=0
 # Bubble Sort
 for i in range(n):
     for j in range(0, n-i-1):  # j should range from 0 to n-i-1
         if arr[j] > arr[j+1]:  # Compare adjacent elements
-            arr[j], arr[j+1] = arr[j+1], arr[j]  # Swap if the element is greater
+            arr[j], arr[j+1] = arr[j+1], arr[j]
+            count +=1  # Swap if the element is greater
             print(arr)
+            
 print("Sorted array is:", arr)
-
+print("Number of comparisions: ",count)
         
