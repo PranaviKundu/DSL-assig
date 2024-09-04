@@ -1,18 +1,29 @@
-n = int(input("Enter the number of elements in the array: "))
-arr = []
+import time
 
-for i in range(n):
-    element = int(input(f"Enter element {i+1}: "))
-    arr.append(element)
-count=0
-# Bubble Sort
-for i in range(n):
-    for j in range(0, n-i-1):  # j should range from 0 to n-i-1
-        if arr[j] > arr[j+1]:  # Compare adjacent elements
-            arr[j], arr[j+1] = arr[j+1], arr[j]
-            count +=1  # Swap if the element is greater
-            print(arr)
-            
-print("Sorted array is:", arr)
-print("Number of comparisions: ",count)
-        
+def bubble_sort(arr):
+    print("Before Bubble Sort:", arr)
+    n = len(arr)
+    comparison_count = 0  # Initialize comparison count
+    for i in range(n - 1, 0, -1):
+        for j in range(i):
+            comparison_count += 1  # Increment comparison count
+            if arr[j] > arr[j + 1]:
+                arr[j], arr[j + 1] = arr[j + 1], arr[j]
+
+        print(f"After pass {n - i}: {arr}")
+    print("After Bubble Sort:", arr)
+    print(f"Total comparisons: {comparison_count}")
+
+def main():
+    n = int(input("Enter the size of the array: "))
+    array = list(map(int, input("Enter the array elements: ").split()))
+
+    array_copy = array.copy()
+    start = time.time()
+    bubble_sort(array_copy)
+    end = time.time()
+    
+    print(f"Bubble Sort took {(end - start) * 1_000_000:.2f} microseconds.")
+
+if __name__ == "__main__":
+    main()
