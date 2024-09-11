@@ -1,34 +1,43 @@
-#quick sort
+import time
+
 n = int(input("Enter the size of the array: "))
 array = list(map(int, input("Enter the array elements: ").split()))
-pivot=array[0]
-i=array[1]
-j=array[n-1]
-def quick_sort(pivot,array, i,j):
-    if i>j and array.index(pivot)<n:
-        for p in range(n):
-            if pivot<array[p]:
-                i=array[p]
-        for q in range(-1,-(n-1)):
-            if pivot>array[q]:
-                j=array[q]
-        array[i], array[j]=array[j], array[i]
-    if j<=i and array.index(pivot)<n:
-        pivot=array[j]
-        arr1=[]
-        arr2=[]
-        for s in range(0,j-1):
-            arr1.append(array(s))
-        for t in range(j+1,n):
-            arr2.append(array(t))
-        for u in range(n):
-            if pivot<array[u]:
-                i=array[u]
-        for r in range(-1,-(n-1)):
-            if pivot>array[r]:
-                j=array[r]
-        arr2[i], arr2[j]=arr2[j], arr2[i]
-        arr1[i], arr1[j]=arr1[j], arr1[i]
-        arr1= arr1.append(arr2)
-print("The original array: ",array)
-print("The sorted array: ",arr1 )
+
+# Initialize a global variable for counting comparisons
+comparisons = 0
+
+def quick_sort(array, low, high):
+    global comparisons
+    if low < high:
+        pivot = array[low]
+        i = low
+        j = high
+        
+        while i < j:
+            while i < high and array[i] <= pivot:
+                i += 1
+                comparisons += 1  # Count comparisons
+            while array[j] > pivot:
+                j -= 1
+                comparisons += 1  # Count comparisons
+            if i < j:
+                array[i], array[j] = array[j], array[i]
+        
+        # Swap the pivot with the element at the partition index
+        array[low], array[j] = array[j], array[low]
+        
+        # Recursively sort the sub-arrays
+        quick_sort(array, low, j - 1)
+        quick_sort(array, j + 1, high)
+
+print("The original array: ", array)
+
+# Measure time taken for Quick Sort
+array_copy = array.copy()
+start = time.time()
+quick_sort(array_copy, 0, len(array_copy) - 1)
+end = time.time()
+
+print("The sorted array: ", array_copy)
+print(f"Quick sort took {(end - start) * 1_000_000: .2f} microseconds.")
+print(f"Total comparisons: {comparisons}")
