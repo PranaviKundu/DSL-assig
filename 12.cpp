@@ -164,7 +164,7 @@ int main(){
                 addpresident(linked_list,n,s);
             }
         }else if(choice == 2){
-            if(ispresident==false){
+            if(!ispresident(linked_list)) {
                 cout<<"Enter president first"<<endl;
                 continue;
             }
