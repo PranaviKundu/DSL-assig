@@ -10,22 +10,26 @@ def fibo_series(n):
 
     return fibo_m_2, fibo_m_1, fibo_m
 
+
 def fibonacci_search(arr, key):
     n = len(arr)
     fibo_m_2, fibo_m_1, fibo_m = fibo_series(n)
 
-    offset = 0  # Initial offset set to 0
+    offset = -1  # Initial offset set to -1
 
     while fibo_m > 1:
+        # Check the valid index
         i = min(offset + fibo_m_2, n - 1)
 
         if arr[i] < key:
+            # Move to the right subarray
             fibo_m = fibo_m_1
             fibo_m_1 = fibo_m_2
             fibo_m_2 = fibo_m - fibo_m_1
             offset = i
 
         elif arr[i] > key:
+            # Move to the left subarray
             fibo_m = fibo_m_2
             fibo_m_1 = fibo_m_1 - fibo_m_2
             fibo_m_2 = fibo_m - fibo_m_1
@@ -33,17 +37,24 @@ def fibonacci_search(arr, key):
         else:
             return i  # Key found at index i
 
-    if fibo_m_1 and arr[offset + 1] == key:
+    # Check if the last element matches the key
+    if fibo_m_1 and offset + 1 < n and arr[offset + 1] == key:
         return offset + 1
 
     return -1  # Key not found
 
+
+# Main program
 n = int(input("Enter the number of elements in the array: "))
 arr = []
 
 for i in range(n):
-    element = int(input(f"Enter element {i+1}: "))
+    element = int(input(f"Enter element {i + 1}: "))
     arr.append(element)
+
+# Sort the array (Fibonacci search requires a sorted array)
+arr.sort()
+print(f"Sorted array: {arr}")
 
 key = int(input("Enter the number to find in the array: "))
 
