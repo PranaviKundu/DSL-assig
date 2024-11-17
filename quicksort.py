@@ -3,6 +3,11 @@ import time
 n = int(input("Enter the size of the array: "))
 array = list(map(int, input("Enter the array elements: ").split()))
 
+# Validate the array length
+if len(array) != n:
+    print("Error: The number of elements does not match the specified size.")
+    exit()
+
 # Initialize a global variable for counting comparisons
 comparisons = 0
 
@@ -10,18 +15,20 @@ def quick_sort(array, low, high):
     global comparisons
     if low < high:
         pivot = array[low]
-        i = low
+        i = low + 1
         j = high
         
-        while i < j:
-            while i < high and array[i] <= pivot:
+        while True:
+            while i <= j and array[i] <= pivot:
+                comparisons += 1  # Count comparisons
                 i += 1
+            while i <= j and array[j] > pivot:
                 comparisons += 1  # Count comparisons
-            while array[j] > pivot:
                 j -= 1
-                comparisons += 1  # Count comparisons
-            if i < j:
+            if i <= j:
                 array[i], array[j] = array[j], array[i]
+            else:
+                break
         
         # Swap the pivot with the element at the partition index
         array[low], array[j] = array[j], array[low]
