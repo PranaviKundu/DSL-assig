@@ -6,92 +6,105 @@
 
 //fill the empty places with -1
 
+
 #include <iostream>
 #include <vector>
 using namespace std;
 
-// Define the size of the hash table
-const int TABLE_SIZE = 10;
+int TABLE_SIZE = 10;
 
-// Hash Table class
-class HashTable {
+class hashing {
 private:
     vector<int> table;
-
 public:
-    // Constructor initializes the table with -1 (indicating empty)
-    HashTable() {
+    hashing() {
         table.resize(TABLE_SIZE, -1);
     }
 
-    // Hash function to determine the index
     int hashFunction(int key) {
         return key % TABLE_SIZE;
     }
 
-    // Insert function to add an element to the table
-    void insert(int key) {
-        int index = hashFunction(key);
-
-        // Linear probing in case of collision
-        while (table[index] != -1) {
-            cout << "Collision at index " << index << ", trying next index." << endl;
-            index = (index + 1) % TABLE_SIZE; // Wrap around if needed
+    // Check if the table is full
+    bool isFull() {
+        for (int i = 0; i < TABLE_SIZE; i++) {
+            if (table[i] == -1) {
+                return false;  // There's at least one empty slot
+            }
         }
-
-        table[index] = key;
-        cout << "Inserted " << key << " at index " << index << endl;
+        return true;  // No empty slots, table is full
     }
 
-    // Display the hash table
+    void insert(int key) {
+        if (isFull()) {
+            cout << "Error: Hash table is full. Cannot insert more keys." << endl;
+            return;
+        }
+
+        int index = hashFunction(key);
+        while (table[index] != -1) {
+            cout << "Collision at index " << index << ", therefore checking the next index." << endl;
+            index = (index + 1) % TABLE_SIZE;
+        }
+        table[index] = key;
+        cout << "Key " << key << " inserted at index " << index << endl;
+    }
+
     void display() {
-        cout << "Hash Table: ";
-        for (int i = 0; i < TABLE_SIZE; ++i) {
-            cout << table[i] << " ";  // Display -1 for empty slots
+        for (int i = 0; i < TABLE_SIZE; i++) {
+            cout << table[i] << " ";
         }
         cout << endl;
     }
 
-    // Search function to find an element in the table
     bool search(int key) {
         int index = hashFunction(key);
-        int startIndex = index; // To prevent infinite loop
-
+        int startIndex = index;
         while (table[index] != -1) {
-            if (table[index] == key)
+            if (table[index] == key) {
                 return true;
+            }
             index = (index + 1) % TABLE_SIZE;
-
-            // Stop searching if we have wrapped around to the start index
-            if (index == startIndex)
-                break;
+            if (index == startIndex) {
+                break;  // Prevent infinite loop if the table is full
+            }
         }
         return false;
     }
 
-    // Read function to get input from the user
     void read() {
         int key;
-        cout << "Enter the key to insert into the hash table: ";
+        cout << "Enter the key you want to insert: ";
         cin >> key;
         insert(key);
     }
+
+    int size() {
+        int count = 0;
+        for (int i = 0; i < TABLE_SIZE; i++) {
+            if (table[i] != -1) {
+                count++;
+            }
+        }
+        return count;
+    }
 };
 
-// Main function to test the HashTable
 int main() {
-    HashTable hashTable;
+    hashing hashTable;
 
-    // Read input and insert into hash table
-    hashTable.read();
-    hashTable.read();
+    // Inserting keys until the table is full
+    for (int i = 0; i < 10; i++) {
+        hashTable.read();
+    }
 
-    // Display the hash table after insertion
     hashTable.display();
 
-    // Search for a key
+    // Try to insert one more key when the table is full
+    hashTable.read();  // This will fail if the table is full
+
     int searchKey;
-    cout << "Enter a key to search: ";
+    cout << "Enter the key to search in the hash table: ";
     cin >> searchKey;
     if (hashTable.search(searchKey)) {
         cout << "Key " << searchKey << " found in the hash table." << endl;
@@ -99,11 +112,8 @@ int main() {
         cout << "Key " << searchKey << " not found in the hash table." << endl;
     }
 
+    int load_factor = hashTable.size() / TABLE_SIZE;
+    cout << "Load factor: " << load_factor << endl;
+
     return 0;
 }
-
-
-
-
-//vector<vector<int>>
-//insert, read, display, search
