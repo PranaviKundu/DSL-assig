@@ -86,6 +86,30 @@ void display(){
     }
 }
 void delete(int key){
+    void delete_key(int key, int arr[10][2]) {
+    int index = hashFunction(key);
+    int cnt = 0;
+    bool found = false;
+    
+    // Linear probing to find the element
+    while (arr[index][0] != -1) {
+        cnt++;
+        if (arr[index][0] == key) {
+            // Element found, perform deletion
+            arr[index][0] = -1;  // Mark slot as empty (deleted)
+            arr[index][1] = -1;  // Clear chain pointer if any
+            cout << "Element " << key << " deleted successfully!" << endl;
+            cout << "Number of comparisons: " << cnt << endl;
+            found = true;
+            break;
+        }
+        index = (index + 1) % 10;  // Move to next slot (linear probing)
+    }
+
+    if (!found) {
+        cout << "Element " << key << " not found in the hash table!" << endl;
+    }
+}
 
 }
 int main(){
