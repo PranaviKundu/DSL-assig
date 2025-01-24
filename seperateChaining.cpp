@@ -22,7 +22,7 @@ int hashFunction(string word){
     int hashValue =0;
     int length = word.length();
     for(int i=0;i<length;i++){
-        char ch =word[length-i-1]
+        char ch =word[length-i-1];
         hashValue += int (ch) * pow(10,i);
     }
     return hashValue%Table_size;
@@ -52,7 +52,7 @@ string search(Node* hashTable[],string word){
 void deleteWord(Node * hashTable[], string word){
     int index=hashFunction(word);
     Node * temp =hashTable[index];
-    node* prev = nullptr;
+    Node* prev = nullptr;
     while(temp!=nullptr){
         if(temp->word == word){
             if(prev ==nullptr){
@@ -73,6 +73,7 @@ void deleteWord(Node * hashTable[], string word){
 void display(Node * hashTable[]){
     bool isEmpty = true;
     for(int i=0;i<Table_size;i++){
+        Node *temp = hashTable[i];
         if(temp == nullptr){
             cout<<"Empty";
         }
