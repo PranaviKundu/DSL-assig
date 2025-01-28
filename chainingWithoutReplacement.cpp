@@ -1,122 +1,117 @@
-#include<iostream>
-#include<vector>
+#include <iostream>
+#include <vector>
 using namespace std;
-int hashFunction(int key){
-    return key%10;
-}
-vector<int> table;
 
-void insert(int key, arr){
-    int index= hashFunction(int key);
-    if(arr[index][0]==-1){
-        arr[index][0]==key;
-        cout<<"Inserted successfully";
-    }
-    else{
-        j=index+1;
-        while(j!=index){
-            if(arr[j][0]==-1){
-                arr[j][0]=key;
-                cout<<"Inserted successfully";
-                if(hashFunction(key==hashFunction(arr[index]))){
-                    arr[index][1]=j;
-                    cou<<"Chain column updated";
-                }
-            }
-            j=((j+1)%10);
-        }
-    }
+int hashFunction(int key) {
+    return key % 10;
 }
-void search(int key, arr){
-    int cnt=0;
-    int i=0;
-    int val=key%10;
-    while(i<10){
-        if(arr[val][0]==key){
-            cout<<"Element found at index: "<<val;
-            cout<<"Number of comparsions: "<<cnt;
-            return;
-        }
-        else if(hashFunction(key)==val){
-            if(arr[val][1]==-1){
-                cout<<"Element not found!"<<endl;
+
+void insert(int key, int arr[10][2]) {
+    int index = hashFunction(key);
+    if (arr[index][0] == -1) {
+        arr[index][0] = key;
+        cout << "Inserted "<< key <<" successfully" << endl;
+    } else {
+        int j = index + 1;
+        while (j != index) {
+            if (arr[j][0] == -1) {
+                arr[j][0] = key;
+                cout << "Inserted "<<key<<" successfully" << endl;
+                if (hashFunction(key) == hashFunction(arr[index][0])) {
+                    arr[index][1] = j;
+                    cout << "Chain column updated" << endl;
+                }
                 return;
             }
-            else if(arr[val][0]==-1){
-                cout<<"Element not found!"<<endl;
-                return;
-            }
-            else{
-                val=arr[val][1];
-            }
+            j = (j + 1) % 10;
         }
-        else if(hashFunction(key)!=val){
-            int j=val+1;
-            while(j!=val){
-                if(arr[j][0]==key){
-                    cout<<"Element found at index: "<<val;
-                    cout<<"Number of comparsions: "<<cnt;
-                    return;
-                }
+    }
+}
 
-                j=(j+1)%10;
+int search(int key, int arr[10][2]) {
+    int cnt = 0;
+    int i = 0;
+    int val = key % 10;
+    while (i < 10) {
+        cnt++;
+        if (arr[val][0] == key) {
+            cout << key <<"found at index: " << val << endl;
+            cout << "Number of comparisons: " << cnt << endl;
+            return val;
+        } else if (hashFunction(key) == val) {
+            if (arr[val][1] == -1) {
+                cout <<key << " not found!" << endl;
+                return -1;
+            } else if (arr[val][0] == -1) {
+                cout << key <<" not found!" << endl;
+                return -1;
+            } else {
+                val = arr[val][1];
+            }
+        } else if (hashFunction(key) != val) {
+            int j = val + 1;
+            while (j != val) {
+                cnt++;
+                if (arr[j][0] == key) {
+                    cout << key <<" found at index: " << j << endl;
+                    cout << "Number of comparisons: " << cnt << endl;
+                    return j;
+                }
+                j = (j + 1) % 10;
             }
         }
         i++;
     }
+    return -1;
 }
-void load_factor(){
-    //number of elements in table/size of table
-    int elements=0;
-    for(int i=0;i<10;i++){
-        if(arr[i][0]!=-1){
+
+float load_factor(int arr[10][2]) {
+    int elements = 0;
+    for (int i = 0; i < 10; i++) {
+        if (arr[i][0] != -1) {
             elements++;
         }
-        else{
-            continue;
-        }
     }
-    int loadFactor=elements/10;
-    return loadFactor;
+    return static_cast<float>(elements) / 10;
 }
-void display(){
-    cout<<"The hash table is: "<<endl;
-    for(int i=0;i<10;i++){
-        cout<<arr[i][0];
-    }
-}
-void delete(int key){
-    void delete_key(int key, int arr[10][2]) {
-    int index = hashFunction(key);
-    int cnt = 0;
-    bool found = false;
-    
-    // Linear probing to find the element
-    while (arr[index][0] != -1) {
-        cnt++;
-        if (arr[index][0] == key) {
-            // Element found, perform deletion
-            arr[index][0] = -1;  // Mark slot as empty (deleted)
-            arr[index][1] = -1;  // Clear chain pointer if any
-            cout << "Element " << key << " deleted successfully!" << endl;
-            cout << "Number of comparisons: " << cnt << endl;
-            found = true;
-            break;
-        }
-        index = (index + 1) % 10;  // Move to next slot (linear probing)
-    }
 
-    if (!found) {
+void display(int arr[10][2]) {
+    cout << "The hash table is: " << endl;
+    for (int i = 0; i < 10; i++) {
+        cout << arr[i][0] << " ";
+    }
+    cout << endl;
+}
+
+void delete_key(int key, int arr[10][2]) {
+    int index = search(key, arr);
+    
+    if (index != -1) {
+        arr[index][0] = -1;
+        arr[index][1] = -1; 
+        cout << "Element " << key << " deleted successfully!" << endl;
+    } else {
         cout << "Element " << key << " not found in the hash table!" << endl;
     }
 }
 
-}
-int main(){
+
+int main() {
     int arr[10][2];
-    for(int i=0;i<10;i++){
-        arr[i][0]=-1;
-        arr[i][1]=-1;
+    for (int i = 0; i < 10; i++) {
+        arr[i][0] = -1;
+        arr[i][1] = -1;
     }
 
+    insert(25, arr);
+    insert(35, arr);
+    insert(45, arr);
+    display(arr);
+
+    search(35, arr);
+    search(50, arr);
+
+    cout << "Load factor: " << load_factor(arr) << endl;
+
+    return 0;
 }
