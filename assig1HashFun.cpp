@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-void insertion(int v,int arr[]){
+void insert(int v,int arr[]){
     int val=v%10;
     if(arr[val]==-1){
         arr[val]=v;
@@ -71,11 +71,12 @@ void search(int n, int arr[]){
     int l=0;
     while(l<10){
         comp++;
-        if(arr[(val+l)%10]==n){
+        int index = (val+l)%10;
+        if(arr[index]==n){
             cout<<"value found at location: "<<(val+l)%10<<endl;
             cout<<"No. of comaprisons are: "<<comp<<endl;
             break;
-        }else if(arr[(val+l)%10]== -1){
+        }else if(arr[index]== -1){
             cout<<"value is not present in table"<<endl;
             cout<<"No. of comaprisons are: "<<comp<<endl;
             break;
@@ -109,7 +110,7 @@ int main(){
             int n;
             cout<<"Enter value you want to enter: ";
             cin>>n;
-            insertion(n,arr);
+            insert(n,arr);
         }
         else if(menu==2){
             cout<<"Displaying the Hash table"<<endl;
