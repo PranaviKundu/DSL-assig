@@ -154,13 +154,25 @@ Node* createBST(int arr[], int start, int end) {
     root->right = createBST(arr, mid + 1, end);
     return root;
 }
+bool isTreeEmpty(Node* root) {
+    if (!root) {
+        cout << "Tree is empty!\n";
+        return true;
+    }
+    return false;
+}
 
 // Menu-driven program
 int main() {
     Node* root = nullptr;
     Node* bstRoot = nullptr;
+    Node* bstFromArray = nullptr; // Separate BST for array elements
+
     int choice, val, arr[] = {1, 2, 3, 4, 5, 6, 7};
-    
+
+    // Default values inserted to avoid empty tree issues
+    //bstRoot = createBST(arr, 0, 6);
+
     do {
         cout << "\n------------- Menu -------------\n";
         cout << "1. Insert into Binary Tree\n";
@@ -200,38 +212,45 @@ int main() {
                 cout << "Enter value to delete from BST: ";
                 cin >> val;
                 bstRoot = deleteBST(bstRoot, val);
+                cout<<"Deleted successfully!"<<endl;
                 break;
             case 5:
-                bstRoot = createBST(arr, 0, 6);
+                cout << "Creating a new BST from the array...\n";
+                bstFromArray = createBST(arr, 0, 6);  // Don't overwrite bstRoot
                 cout << "BST Created from Array.\n";
                 break;
             case 6:
                 cout << "Preorder: ";
-                preorder(root);
+                preorder(bstRoot);
                 cout << endl;
                 break;
             case 7:
                 cout << "Inorder: ";
-                inorder(root);
+                inorder(bstRoot);
                 cout << endl;
                 break;
             case 8:
                 cout << "Postorder: ";
-                postorder(root);
+                postorder(bstRoot);
                 cout << endl;
                 break;
             case 9:
                 cout << "Level Order: ";
-                levelOrder(root);
+                levelOrder(bstRoot);
                 cout << endl;
                 break;
             case 10:
                 cout << "Cloned Tree (Inorder): ";
-                inorder(cloneTree(root));
+                inorder(cloneTree(bstRoot));
+                cout << endl;
+                break;
+            case 12:
+                cout << "Mirror Image (Inorder): ";
+                inorder(mirrorImage(bstRoot));
                 cout << endl;
                 break;
             case 13:
-                cout << "Height of tree: " << treeHeight(root) << endl;
+                cout << "Height of BST: " << treeHeight(bstRoot) << endl;
                 break;
             case 0:
                 cout << "Exiting...\n";
